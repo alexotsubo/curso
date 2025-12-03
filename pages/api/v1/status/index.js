@@ -10,7 +10,7 @@ async function status(request, response) {
   const databaseVersionResult = await database.query("SHOW server_version;");
   // O resultado vem em um array de objetos, pegamos o primeiro [0]
   // e acessamos a propriedade server_version
-  const databaseVersion = databaseVersionResult.rows[0].server_version;
+  const databaseVersionValue = databaseVersionResult.rows[0].server_version;
 
   // CONSULTA 2: Número máximo de conexões permitidas
   // Esta configuração define quantos clientes podem se conectar simultaneamente
@@ -18,7 +18,7 @@ async function status(request, response) {
     "SHOW max_connections;",
   );
   // Convertemos o resultado de string para número inteiro com parseInt()
-  const databaseMaxConnections = parseInt(
+  const databaseMaxConnectionsValue = parseInt(
     databaseMaxConnectionsResult.rows[0].max_connections,
   );
 
@@ -35,7 +35,7 @@ async function status(request, response) {
     values: [databaseName],
   });
   // Pegamos o resultado da contagem
-  const databaseOpenedConnections =
+  const databaseOpenedConnectionsValue =
     databaseOpenedConnectionsResult.rows[0].count;
 
   // Retorna a resposta em formato JSON com status HTTP 200 (sucesso)
@@ -43,9 +43,9 @@ async function status(request, response) {
     updated_at: updateAt,
     dependencies: {
       database: {
-        version: databaseVersion,
-        max_connections: databaseMaxConnections,
-        opened_connections: databaseOpenedConnections,
+        version: databaseVersionValue,
+        max_connections: databaseMaxConnectionsValue,
+        opened_connections: databaseOpenedConnectionsValue,
       },
     },
   });
