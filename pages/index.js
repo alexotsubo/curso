@@ -10,7 +10,7 @@ function Home() {
 
       <div style={{ marginTop: "20px", maxWidth: "600px" }}>
         <AudioPlayer
-          src="/meu-audio.m4a"
+          src="/audio.m4a"
           autoPlay={false}
           showJumpControls={false}
           customAdditionalControls={[]}
