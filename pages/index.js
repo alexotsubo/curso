@@ -1,3 +1,6 @@
+import "react-h5-audio-player/lib/styles.css";
+import AudioPlayer from "react-h5-audio-player";
+
 function Home() {
   return (
     <>
@@ -5,10 +8,20 @@ function Home() {
         Zoey Bolinha ou Zoey na Bolinha? Zoey bonitinha! e muito bonitinha
       </h1>
 
-      <audio controls style={{ marginTop: "20px" }}>
-        <source src="/audio.m4a" type="audio/mp4" />
-        Seu navegador não suporta áudio.
-      </audio>
+      <div style={{ marginTop: "20px", maxWidth: "600px" }}>
+        <AudioPlayer
+          src="/meu-audio.m4a"
+          autoPlay={false}
+          showJumpControls={false}
+          customAdditionalControls={[]}
+          customVolumeControls={[]}
+          layout="stacked"
+          style={{
+            borderRadius: "10px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+          }}
+        />
+      </div>
     </>
   );
 }
