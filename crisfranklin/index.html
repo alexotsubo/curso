@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta de Parceria | Alex Otsubo + Cris Franklin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0B291A;
+            --accent: #2ECC71;
+            --accent-hover: #27AE60;
+            --glow: #00D4FF;
+            --bg-dark: #000000;
+            --bg-section: #0a0a0a;
+            --bg-card: #111111;
+            --text-light: #FFFFFF;
+            --text-muted: #94A3B8;
+            --text-dark: #333333;
+            --gradient-hero: linear-gradient(135deg, #0B291A 0%, #000000 50%, #0B291A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Glow Effects */
+        .glow-accent {
+            box-shadow: 0 0 30px rgba(46, 204, 113, 0.3);
+        }
+
+        .glow-cyan {
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent), var(--glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: var(--accent);
+            color: var(--bg-dark);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .hero-cta:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(46, 204, 113, 0.4);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--text-muted);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section-title span {
+            color: var(--accent);
+        }
+
+        /* Quote Section */
+        .quote-section {
+            background: var(--bg-section);
+            padding: 80px 20px;
+        }
+
+        .quote-grid {
+            display: grid;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quote-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 4px solid var(--accent);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .quote-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 60px;
+            color: var(--accent);
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+
+        .quote-card p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .quote-card cite {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .benefit-card {
+            background: linear-gradient(145deg, var(--bg-card), #0a0a0a);
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid rgba(46, 204, 113, 0.1);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .benefit-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .benefit-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(0, 212, 255, 0.1));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+
+        .benefit-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Proposal Section */
+        .proposal-section {
+            background: var(--bg-section);
+            padding: 100px 20px;
+        }
+
+        .proposal-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #0B291A, #000000);
+            border-radius: 24px;
+            padding: 50px 40px;
+            border: 2px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proposal-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .proposal-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .proposal-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .value-old {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .value-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .value-new {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .proposal-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .proposal-steps {
+            margin-top: 40px;
+        }
+
+        .proposal-step {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+
+        .proposal-step.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: var(--accent);
+            color: var(--bg-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Risk Section */
+        .risk-table {
+            width: 100%;
+            margin-top: 40px;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        .risk-table thead {
+            background: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        .risk-table th {
+            padding: 18px 25px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .risk-table td {
+            padding: 18px 25px;
+            background: var(--bg-card);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .risk-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Timeline Section */
+        .timeline {
+            position: relative;
+            margin-top: 50px;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--accent), var(--glow));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 30px;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid var(--bg-dark);
+        }
+
+        .timeline-week {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Vision Section */
+        .vision-section {
+            background: linear-gradient(135deg, #0B291A 0%, #000000 100%);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .vision-list {
+            list-style: none;
+            max-width: 600px;
+            margin: 40px auto 0;
+            text-align: left;
+        }
+
+        .vision-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .vision-list li.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .vision-check {
+            color: var(--accent);
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 20px;
+            text-align: center;
+            background: var(--bg-dark);
+        }
+
+        .cta-box {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-quote {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .cta-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 50px;
+            background: var(--accent);
+            color: var(--bg-dark);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(46, 204, 113, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            background: var(--bg-section);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .footer-contact {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .footer-contact a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer-tagline {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-15px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-7px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            .proposal-box {
+                padding: 30px 20px;
+            }
+
+            .value-old,
+            .value-new {
+                font-size: 1.5rem;
+            }
+
+            .risk-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <span class="hero-badge">📄 Proposta Exclusiva</span>
+        <h1>Cris, <span>eu ouvi você.</span></h1>
+        <p class="hero-subtitle">Esta proposta foi criada especialmente para mostrar o "ajuste fino" que você busca.
+            Cada detalhe aqui foi pensado.</p>
+        <a href="#quotes" class="hero-cta">
+            Ver Proposta Completa
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+        </a>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="quote-section" id="quotes">
+        <h2 class="section-title">Você me disse coisas que <span>ficaram na minha mente</span></h2>
+        <div class="quote-grid">
+            <div class="quote-card">
+                <p>"Eu preciso de alguém que fique transitando nisso comigo, em várias coisinhas"</p>
+                <cite>— Cris Franklin, em nossa conversa</cite>
+            </div>
+            <div class="quote-card">
+                <p>"O programador não entende metodologia... eu tenho que explicar o tempo todo"</p>
+                <cite>— Cris Franklin</cite>
+            </div>
+            <div class="quote-card">
+                <p>"Preciso de blindagem de alguém que filtre e traga para mim"</p>
+                <cite>— Cris Franklin</cite>
+            </div>
+            <div class="quote-card">
+                <p>"Estou escolhendo parceiros de luta. Pra ir pra guerra e levar chumbo junto"</p>
+                <cite>— Cris Franklin</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="beneficios">
+        <h2 class="section-title">O Que Você <span>Ganha Comigo</span></h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">🎯</div>
+                <h3>Acabamento no Alvobot</h3>
+                <p>Refino a experiência do aluno, crio as "caixinhas de instrução" que você quer, deixo acessível para o
+                    analfabeto digital.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🔄</div>
+                <h3>Transito nos 3 Ecossistemas</h3>
+                <p>Marketing, Entrega e Laboratório. Apago incêndios antes de chegarem a você. Filtro demandas.
+                    Documento processos.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">⚡</div>
+                <h3>Automações de Alto Impacto</h3>
+                <p>ROAS Google Ads pronto. Notificações para alunos. Processamento de áudios. Gestão de projetos com IA.
+                </p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">📚</div>
+                <h3>Visão Educacional Alinhada</h3>
+                <p>Tive escola de Cloud. Entendo neurociência da aprendizagem. Minha missão: garantir que a automação
+                    preserve a essência educacional.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proposal Section -->
+    <section class="proposal-section" id="proposta">
+        <div class="proposal-box">
+            <div class="proposal-header">
+                <div class="proposal-value">
+                    <span class="value-old">R$ 25k/mês</span>
+                    <span class="value-arrow">→</span>
+                    <span class="value-new">R$ 6k/mês</span>
+                </div>
+                <p class="proposal-subtitle">Você paga R$ 6k. Recebe um parceiro de R$ 25k.</p>
+            </div>
+
+            <div class="proposal-steps">
+                <div class="proposal-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Início: R$ 6k acordados</h4>
+                        <p>Começamos com o valor que já combinamos</p>
+                    </div>
+                </div>
+                <div class="proposal-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>ROAS em Escala</h4>
+                        <p>Coloco a automação de Google Ads rodando em quantos projetos for possível</p>
+                    </div>
+                </div>
+                <div class="proposal-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Eu Busco os Resultados</h4>
+                        <p>Vou atrás dos R$ 19k restantes através de participação nos resultados</p>
+                    </div>
+                </div>
+                <div class="proposal-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Transição Completa</h4>
+                        <p>Com esse dinheiro entrando, encerro meus outros projetos e foco 100% com você</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk Section -->
+    <section>
+        <h2 class="section-title">Risco <span>Mínimo</span> Para Você</h2>
+        <table class="risk-table">
+            <thead>
+                <tr>
+                    <th>Benefício</th>
+                    <th>Realidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Custo fixo</strong></td>
+                    <td>Apenas R$ 6k — já combinado</td>
+                </tr>
+                <tr>
+                    <td><strong>Custo variável</strong></td>
+                    <td>Zero. Minha participação vem do resultado que EU gero</td>
+                </tr>
+                <tr>
+                    <td><strong>Meu comprometimento</strong></td>
+                    <td>Real. Se eu não performar, eu que perco</td>
+                </tr>
+                <tr>
+                    <td><strong>Alinhamento de interesses</strong></td>
+                    <td>Total. Quanto mais a operação cresce, mais eu ganho</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Timeline Section -->
+    <section>
+        <h2 class="section-title">O Que Eu Entrego nos <span>Primeiros 30 Dias</span></h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-week">Semana 1</div>
+                <h3 class="timeline-title">Imersão</h3>
+                <p class="timeline-desc">Mapeamento completo do Alvobot. Entrevista com Eric e Yan. Lista de quick wins
+                    ordenada por impacto/esforço.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">Semana 2</div>
+                <h3 class="timeline-title">Primeiro Entregável</h3>
+                <p class="timeline-desc">ROAS Google Ads instalado e rodando em 1-2 blogs. Primeiras métricas
+                    documentadas. Ajuste fino inicial.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">Semana 3</div>
+                <h3 class="timeline-title">Acabamento</h3>
+                <p class="timeline-desc">Primeira versão das "caixinhas de instrução". Fluxo de notificação para alunos
+                    inativos. Dashboard básico.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">Semana 4</div>
+                <h3 class="timeline-title">Avaliação</h3>
+                <p class="timeline-desc">Apresentação de resultados. Definição de próximos passos. Ajuste da parceria se
+                    necessário.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="vision-section">
+        <h2 class="section-title">Visão de <span>Futuro</span></h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Em 12 meses, quero olhar para trás e ver:
+        </p>
+        <ul class="vision-list">
+            <li><span class="vision-check">✓</span> Alvobot lançado e gerando valor real para os alunos</li>
+            <li><span class="vision-check">✓</span> Projeto França no ar, escalando em euros</li>
+            <li><span class="vision-check">✓</span> Ecossistema de automações funcionando sem sua intervenção diária
+            </li>
+            <li><span class="vision-check">✓</span> Líderes delegando de verdade</li>
+            <li><span class="vision-check">✓</span> Você focada na zona de genialidade — visão, estratégia, educação
+            </li>
+            <li><span class="vision-check">✓</span> Eu tendo ajudado a construir algo que transforma vidas</li>
+        </ul>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-box">
+            <blockquote class="cta-quote">
+                "Eu não tenho toque de midas. Eu consigo as coisas porque a gente não para. É trabalho."
+                <footer style="margin-top: 15px; font-style: normal; color: var(--accent);">— Você disse isso. Eu sou
+                    igual.</footer>
+            </blockquote>
+            <p class="cta-text">Quando entro, eu entro de verdade.<br>Não largo até dar certo.</p>
+            <a href="https://wa.me/5511942956780?text=Oi%20Alex%2C%20vi%20sua%20proposta%20e%20quero%20conversar!"
+                class="cta-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                    <path
+                        d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.854L.054 23.577l5.893-1.465A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.82c-1.88 0-3.63-.516-5.13-1.416l-.366-.217-3.508.87.905-3.343-.24-.385A9.804 9.804 0 012.18 12c0-5.422 4.398-9.82 9.82-9.82 5.422 0 9.82 4.398 9.82 9.82 0 5.422-4.398 9.82-9.82 9.82z" />
+                </svg>
+                Falar com Alex no WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-name">Alex Otsubo</p>
+        <p class="footer-contact">
+            📱 <a href="https://wa.me/5511942956780">11 94295-6780</a> ·
+            📧 <a href="mailto:alex.otsubo@hotmail.com">alex.otsubo@hotmail.com</a>
+        </p>
+        <p class="footer-tagline">"Tradutor entre TI e Negócios | Automações | IA | Estratégia"</p>
+    </footer>
+
+    <!-- Scroll Animations -->
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.quote-card, .benefit-card, .proposal-step, .timeline-item, .vision-list li').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
