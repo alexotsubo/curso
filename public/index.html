@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Otsubo | Automações, IA e Estratégia Digital</title>
+    <meta name="description"
+        content="Especialista em automações, inteligência artificial e estratégia digital. 25 anos transformando tecnologia em resultados de negócio.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A365D;
+            --primary-light: #2C5282;
+            --accent: #C9A227;
+            --accent-hover: #B8922B;
+            --text: #2D3748;
+            --text-light: #718096;
+            --bg: #F7FAFC;
+            --white: #FFFFFF;
+            --border: #E2E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-cta {
+            background: var(--primary);
+            color: var(--white) !important;
+            padding: 10px 24px;
+            border-radius: 6px;
+            transition: background 0.3s !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary-light) !important;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 180px 0 120px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--bg) 100%);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero-text .tagline {
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 35px;
+            max-width: 500px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .hero-cta:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(26, 54, 93, 0.2);
+        }
+
+        .hero-avatar {
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 25px 50px rgba(26, 54, 93, 0.15);
+        }
+
+        .hero-avatar span {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            background: var(--bg);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: var(--accent);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* Segments Section */
+        .segments {
+            padding: 100px 0;
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .segments .section-title {
+            color: var(--white);
+        }
+
+        .segments .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .segments-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .segment-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 35px 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .segment-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+        }
+
+        .segment-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .segment-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial-video {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: var(--bg);
+        }
+
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .contact-btn.primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .contact-btn.primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .contact-btn.secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .contact-btn.secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-avatar {
+                margin: 0 auto;
+                width: 200px;
+                height: 200px;
+            }
+
+            .hero-avatar span {
+                font-size: 4rem;
+            }
+
+            .hero-text p {
+                margin: 0 auto 35px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .segments-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">Alex Otsubo</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#servicos">Serviços</a></li>
+                    <li><a href="#depoimentos">Depoimentos</a></li>
+                    <li><a href="#contato" class="nav-cta">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Alex Otsubo</h1>
+                <p class="tagline">Automações • IA • Estratégia Digital</p>
+                <p>25 anos transformando tecnologia em resultados de negócio. Especialista em traduzir necessidades
+                    empresariais em soluções tecnológicas que geram valor mensurável.</p>
+                <a href="#contato" class="hero-cta">
+                    Fale Comigo
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="hero-avatar">
+                <span>AO</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="sobre">
+        <div class="container">
+            <h2 class="section-title">Sobre</h2>
+            <p class="section-subtitle">Experiência que conecta tecnologia e negócios</p>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Com mais de duas décadas de experiência em Tecnologia da Informação, desenvolvi uma competência
+                        única: <strong>traduzir necessidades de negócio em soluções tecnológicas que realmente
+                            funcionam</strong>.</p>
+                    <p>Minha trajetória inclui a fundação de uma escola de Cloud Computing, execução de múltiplos
+                        lançamentos digitais de seis dígitos, e o desenvolvimento de sistemas de automação para empresas
+                        de diversos segmentos.</p>
+                    <p>Hoje, atuo na interseção entre estratégia e execução — entendendo profundamente as dores do
+                        negócio e implementando soluções com inteligência artificial e automações que escalam operações.
+                    </p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Anos de TI</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6 em 7</div>
+                        <div class="stat-label">Lançamentos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Projetos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Segmentos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="servicos">
+        <div class="container">
+            <h2 class="section-title">Áreas de Atuação</h2>
+            <p class="section-subtitle">Soluções tecnológicas que geram resultados</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Automação de Processos</h3>
+                    <p>Eliminação de tarefas manuais e repetitivas através de fluxos automatizados que aumentam
+                        eficiência e reduzem erros.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>Inteligência Artificial</h3>
+                    <p>Implementação de IA aplicada ao negócio: chatbots, análise de dados, processamento de linguagem
+                        natural e machine learning.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Consultoria Estratégica</h3>
+                    <p>Diagnóstico de processos e definição de roadmap tecnológico alinhado aos objetivos de crescimento
+                        da empresa.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💻</div>
+                    <h3>Desenvolvimento de Sistemas</h3>
+                    <p>Criação de soluções sob medida: dashboards, integrações, APIs e sistemas completos para
+                        necessidades específicas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Segments -->
+    <section class="segments">
+        <div class="container">
+            <h2 class="section-title">Segmentos de Atuação</h2>
+            <p class="section-subtitle">Experiência comprovada em diferentes mercados</p>
+            <div class="segments-grid">
+                <div class="segment-card">
+                    <div class="segment-icon">🏢</div>
+                    <h3>Imobiliário</h3>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-icon">🏥</div>
+                    <h3>Saúde</h3>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-icon">📚</div>
+                    <h3>Educação</h3>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-icon">💰</div>
+                    <h3>Financeiro</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="depoimentos">
+        <div class="container">
+            <h2 class="section-title">Depoimentos</h2>
+            <p class="section-subtitle">O que dizem sobre o trabalho realizado</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-video">
+                    <iframe src="https://www.youtube.com/embed/XIhnYgr18sE" title="Depoimento Zila e Carol"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="testimonial-video">
+                    <iframe src="https://www.youtube.com/embed/NLmk7U2FWDA" title="Depoimento Antonio Rocha"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="testimonial-video">
+                    <iframe src="https://www.youtube.com/embed/VyUnDND50ZQ" title="Depoimento Tiago Feitosa"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="testimonial-video">
+                    <iframe src="https://www.youtube.com/embed/XPJi4SDvxQc" title="Depoimento Maiara Sardenberg"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contato">
+        <div class="container contact-content">
+            <h2 class="section-title">Vamos Conversar</h2>
+            <p class="section-subtitle">Pronto para transformar sua operação com tecnologia inteligente?</p>
+            <p>Entre em contato para discutir como posso ajudar seu negócio a escalar através de automações e
+                inteligência artificial.</p>
+            <div class="contact-buttons">
+                <a href="https://wa.me/5511942956780?text=Ol%C3%A1%20Alex%2C%20vim%20pelo%20seu%20site%20e%20gostaria%20de%20conversar."
+                    class="contact-btn primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                        <path
+                            d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.854L.054 23.577l5.893-1.465A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.82c-1.88 0-3.63-.516-5.13-1.416l-.366-.217-3.508.87.905-3.343-.24-.385A9.804 9.804 0 012.18 12c0-5.422 4.398-9.82 9.82-9.82 5.422 0 9.82 4.398 9.82 9.82 0 5.422-4.398 9.82-9.82 9.82z" />
+                    </svg>
+                    WhatsApp
+                </a>
+                <a href="mailto:alex.otsubo@hotmail.com" class="contact-btn secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    E-mail
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <p>© 2026 Alex Otsubo. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Smooth scroll -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
