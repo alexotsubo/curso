@@ -1,316 +1,571 @@
 import Head from "next/head";
+import { useEffect, useRef } from "react";
 
-const styles = {
-    // Colors
-    colors: {
-        primary: "#1A365D",
-        primaryLight: "#2C5282",
-        accent: "#C9A227",
-        text: "#2D3748",
-        textLight: "#718096",
-        bg: "#F7FAFC",
-        white: "#FFFFFF",
-        border: "#E2E8F0",
-    },
-};
+export default function Home() {
+  const observerRef = useRef(null);
 
-function Home() {
-    return (
-        <>
-            <Head>
-                <title>Alex Otsubo | Automações, IA e Estratégia Digital</title>
-                <meta
-                    name="description"
-                    content="Especialista em automações, inteligência artificial e estratégia digital. 25 anos transformando tecnologia em resultados de negócio."
-                />
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-                    rel="stylesheet"
-                />
-            </Head>
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-            <style jsx global>{`
+    document.querySelectorAll(".animate-on-scroll").forEach((el) => {
+      observerRef.current.observe(el);
+    });
+
+    return () => observerRef.current?.disconnect();
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <title>Alex Otsubo | Automações, IA & Estratégia Digital</title>
+        <meta
+          name="description"
+          content="25 anos transformando tecnologia em resultados. Especialista em automações, inteligência artificial e estratégia digital para escalar operações."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+
+      <style jsx global>{`
+        :root {
+          --bg-primary: #09090b;
+          --bg-secondary: #0f0f11;
+          --bg-card: #18181b;
+          --bg-card-hover: #1f1f23;
+          --border: #27272a;
+          --border-hover: #3f3f46;
+          --text-primary: #fafafa;
+          --text-secondary: #a1a1aa;
+          --text-tertiary: #71717a;
+          --accent: #10b981;
+          --accent-hover: #059669;
+          --accent-glow: rgba(16, 185, 129, 0.15);
+        }
+
         * {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
         }
+
         html {
           scroll-behavior: smooth;
+          font-size: 16px;
         }
+
         body {
-          font-family: "Inter", sans-serif;
-          background: #f7fafc;
-          color: #2d3748;
-          line-height: 1.7;
+          font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+          background: var(--bg-primary);
+          color: var(--text-primary);
+          line-height: 1.6;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
+
+        ::selection {
+          background: var(--accent);
+          color: var(--bg-primary);
+        }
+
+        .animate-on-scroll {
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
       `}</style>
 
-            <style jsx>{`
-        .header {
-          background: #ffffff;
-          border-bottom: 1px solid #e2e8f0;
-          padding: 20px 0;
-          position: fixed;
-          width: 100%;
-          top: 0;
-          z-index: 100;
-        }
+      <style jsx>{`
+        /* ===== LAYOUT ===== */
         .container {
-          max-width: 1100px;
+          max-width: 1200px;
           margin: 0 auto;
           padding: 0 24px;
         }
+
+        @media (min-width: 768px) {
+          .container {
+            padding: 0 48px;
+          }
+        }
+
+        /* ===== HEADER ===== */
+        header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 100;
+          padding: 20px 0;
+          background: rgba(9, 9, 11, 0.8);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--border);
+        }
+
         .header-content {
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
+
         .logo {
-          font-family: "Playfair Display", serif;
-          font-size: 1.5rem;
-          font-weight: 600;
-          color: #1a365d;
+          font-size: 1.125rem;
+          font-weight: 700;
+          color: var(--text-primary);
           text-decoration: none;
-        }
-        .nav-links {
-          display: flex;
-          gap: 35px;
-          list-style: none;
-        }
-        .nav-links a {
-          color: #2d3748;
-          text-decoration: none;
-          font-size: 0.95rem;
-          font-weight: 500;
-          transition: color 0.3s;
-        }
-        .nav-links a:hover {
-          color: #1a365d;
-        }
-        .nav-cta {
-          background: #1a365d;
-          color: #ffffff !important;
-          padding: 10px 24px;
-          border-radius: 6px;
-        }
-        .nav-cta:hover {
-          background: #2c5282;
+          letter-spacing: -0.02em;
         }
 
-        .hero {
-          padding: 180px 0 120px;
-          background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+        .logo span {
+          color: var(--accent);
         }
-        .hero-content {
-          display: grid;
-          grid-template-columns: 1fr 300px;
-          gap: 60px;
-          align-items: center;
+
+        nav {
+          display: none;
         }
-        .hero h1 {
-          font-family: "Playfair Display", serif;
-          font-size: 3.5rem;
-          font-weight: 700;
-          color: #1a365d;
-          margin-bottom: 15px;
-          line-height: 1.2;
+
+        @media (min-width: 768px) {
+          nav {
+            display: flex;
+            gap: 40px;
+          }
         }
-        .tagline {
-          font-size: 1.25rem;
-          color: #c9a227;
+
+        nav a {
+          font-size: 0.875rem;
           font-weight: 500;
-          margin-bottom: 25px;
+          color: var(--text-secondary);
+          text-decoration: none;
+          transition: color 0.2s;
         }
-        .hero-text p {
-          font-size: 1.1rem;
-          color: #718096;
-          margin-bottom: 35px;
-          max-width: 500px;
+
+        nav a:hover {
+          color: var(--text-primary);
         }
-        .hero-cta {
+
+        .header-cta {
+          font-size: 0.875rem;
+          font-weight: 600;
+          padding: 10px 20px;
+          background: var(--accent);
+          color: var(--bg-primary);
+          text-decoration: none;
+          border-radius: 8px;
+          transition: all 0.2s;
+        }
+
+        .header-cta:hover {
+          background: var(--accent-hover);
+          transform: translateY(-1px);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          padding: 160px 0 120px;
+          position: relative;
+        }
+
+        .hero::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 800px;
+          height: 600px;
+          background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+          pointer-events: none;
+        }
+
+        .hero-content {
+          position: relative;
+          max-width: 800px;
+        }
+
+        .hero-badge {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          background: #1a365d;
-          color: #ffffff;
+          gap: 8px;
+          padding: 8px 16px;
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          border-radius: 100px;
+          font-size: 0.8125rem;
+          font-weight: 500;
+          color: var(--text-secondary);
+          margin-bottom: 32px;
+        }
+
+        .hero-badge span {
+          color: var(--accent);
+        }
+
+        .hero h1 {
+          font-size: clamp(2.5rem, 6vw, 4rem);
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -0.03em;
+          margin-bottom: 24px;
+        }
+
+        .hero h1 .highlight {
+          background: linear-gradient(135deg, var(--accent) 0%, #34d399 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .hero-description {
+          font-size: 1.25rem;
+          line-height: 1.7;
+          color: var(--text-secondary);
+          max-width: 600px;
+          margin-bottom: 48px;
+        }
+
+        .hero-cta-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 16px;
+        }
+
+        .btn-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
           padding: 16px 32px;
-          border-radius: 8px;
-          text-decoration: none;
+          background: var(--accent);
+          color: var(--bg-primary);
+          font-size: 1rem;
           font-weight: 600;
-          transition: all 0.3s;
+          text-decoration: none;
+          border-radius: 8px;
+          transition: all 0.2s;
         }
-        .hero-cta:hover {
-          background: #2c5282;
+
+        .btn-primary:hover {
+          background: var(--accent-hover);
           transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(26, 54, 93, 0.2);
+          box-shadow: 0 8px 32px var(--accent-glow);
         }
-        .hero-avatar {
-          width: 280px;
-          height: 280px;
-          background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
-          border-radius: 20px;
+
+        .btn-secondary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 16px 32px;
+          background: transparent;
+          color: var(--text-primary);
+          font-size: 1rem;
+          font-weight: 600;
+          text-decoration: none;
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+          border-color: var(--border-hover);
+          background: var(--bg-card);
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+          padding: 120px 0;
+        }
+
+        .section-header {
+          margin-bottom: 64px;
+        }
+
+        .section-label {
+          display: inline-block;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: var(--accent);
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          margin-bottom: 16px;
+        }
+
+        .section-title {
+          font-size: clamp(2rem, 4vw, 2.75rem);
+          font-weight: 700;
+          line-height: 1.2;
+          letter-spacing: -0.02em;
+          margin-bottom: 16px;
+        }
+
+        .section-description {
+          font-size: 1.125rem;
+          color: var(--text-secondary);
+          max-width: 600px;
+        }
+
+        /* ===== STATS ===== */
+        .stats-section {
+          background: var(--bg-secondary);
+          border-top: 1px solid var(--border);
+          border-bottom: 1px solid var(--border);
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+          .stats-grid {
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+
+        .stat-item {
+          text-align: center;
+          padding: 32px 16px;
+        }
+
+        .stat-number {
+          font-size: 3rem;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: var(--text-primary);
+          margin-bottom: 8px;
+        }
+
+        .stat-number span {
+          color: var(--accent);
+        }
+
+        .stat-label {
+          font-size: 0.875rem;
+          color: var(--text-tertiary);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-grid {
+          display: grid;
+          gap: 64px;
+        }
+
+        @media (min-width: 768px) {
+          .about-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+          }
+        }
+
+        .about-avatar {
+          width: 100%;
+          max-width: 400px;
+          aspect-ratio: 1;
+          background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+          border: 1px solid var(--border);
+          border-radius: 24px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 25px 50px rgba(26, 54, 93, 0.15);
-        }
-        .hero-avatar span {
-          font-family: "Playfair Display", serif;
-          font-size: 5rem;
-          font-weight: 700;
-          color: #ffffff;
+          position: relative;
+          overflow: hidden;
         }
 
-        .section {
-          padding: 100px 0;
-        }
-        .section-white {
-          background: #ffffff;
-        }
-        .section-gray {
-          background: #f7fafc;
-        }
-        .section-primary {
-          background: #1a365d;
-          color: #ffffff;
-        }
-        .section-title {
-          font-family: "Playfair Display", serif;
-          font-size: 2.2rem;
-          font-weight: 600;
-          color: #1a365d;
-          margin-bottom: 15px;
-        }
-        .section-primary .section-title {
-          color: #ffffff;
-        }
-        .section-subtitle {
-          color: #718096;
-          font-size: 1.1rem;
-          margin-bottom: 50px;
-        }
-        .section-primary .section-subtitle {
-          color: rgba(255, 255, 255, 0.7);
+        .about-avatar::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: conic-gradient(from 0deg, transparent, var(--accent-glow), transparent 30%);
+          animation: rotate 8s linear infinite;
         }
 
-        .about-content {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 60px;
+        @keyframes rotate {
+          100% { transform: rotate(360deg); }
+        }
+
+        .about-avatar-inner {
+          position: relative;
+          width: calc(100% - 4px);
+          height: calc(100% - 4px);
+          background: var(--bg-card);
+          border-radius: 22px;
+          display: flex;
           align-items: center;
+          justify-content: center;
         }
+
+        .about-initials {
+          font-size: 6rem;
+          font-weight: 800;
+          letter-spacing: -0.05em;
+          background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
         .about-text p {
-          font-size: 1.05rem;
-          color: #2d3748;
-          margin-bottom: 20px;
+          font-size: 1.125rem;
+          color: var(--text-secondary);
+          margin-bottom: 24px;
+          line-height: 1.8;
         }
-        .about-stats {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 30px;
+
+        .about-text p strong {
+          color: var(--text-primary);
+          font-weight: 600;
         }
-        .stat-card {
-          background: #f7fafc;
-          padding: 30px;
-          border-radius: 12px;
-          text-align: center;
-          border: 1px solid #e2e8f0;
-        }
-        .stat-number {
-          font-family: "Playfair Display", serif;
-          font-size: 2.5rem;
-          font-weight: 700;
-          color: #1a365d;
-          margin-bottom: 8px;
-        }
-        .stat-label {
-          font-size: 0.9rem;
-          color: #718096;
-          text-transform: uppercase;
-          letter-spacing: 1px;
+
+        /* ===== SERVICES ===== */
+        .services-section {
+          background: var(--bg-secondary);
         }
 
         .services-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 30px;
+          gap: 24px;
         }
+
+        @media (min-width: 768px) {
+          .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
         .service-card {
-          background: #ffffff;
-          padding: 40px 30px;
-          border-radius: 12px;
-          border: 1px solid #e2e8f0;
+          padding: 40px;
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          border-radius: 16px;
           transition: all 0.3s;
         }
+
         .service-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-          border-color: #c9a227;
+          border-color: var(--accent);
+          transform: translateY(-4px);
+          box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
         }
+
         .service-icon {
-          width: 60px;
-          height: 60px;
-          background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+          width: 56px;
+          height: 56px;
+          background: var(--accent-glow);
           border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 25px;
-          font-size: 28px;
-        }
-        .service-card h3 {
-          font-size: 1.2rem;
-          font-weight: 600;
-          color: #1a365d;
-          margin-bottom: 12px;
-        }
-        .service-card p {
-          font-size: 0.95rem;
-          color: #718096;
+          font-size: 1.75rem;
+          margin-bottom: 24px;
         }
 
+        .service-card h3 {
+          font-size: 1.375rem;
+          font-weight: 700;
+          margin-bottom: 12px;
+          letter-spacing: -0.01em;
+        }
+
+        .service-card p {
+          font-size: 1rem;
+          color: var(--text-secondary);
+          line-height: 1.7;
+        }
+
+        /* ===== SEGMENTS ===== */
         .segments-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 30px;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
         }
+
+        @media (min-width: 768px) {
+          .segments-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+          }
+        }
+
         .segment-card {
-          background: rgba(255, 255, 255, 0.1);
-          padding: 35px 25px;
+          padding: 32px 24px;
+          background: var(--bg-card);
+          border: 1px solid var(--border);
           border-radius: 12px;
           text-align: center;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          transition: all 0.3s;
+          transition: all 0.2s;
         }
+
         .segment-card:hover {
-          background: rgba(255, 255, 255, 0.15);
-          border-color: #c9a227;
+          border-color: var(--border-hover);
+          background: var(--bg-card-hover);
         }
+
         .segment-icon {
-          font-size: 40px;
-          margin-bottom: 20px;
+          font-size: 2.5rem;
+          margin-bottom: 16px;
         }
+
         .segment-card h3 {
-          font-size: 1.1rem;
+          font-size: 1rem;
           font-weight: 600;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-section {
+          background: var(--bg-secondary);
         }
 
         .testimonials-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 30px;
+          gap: 24px;
         }
+
+        @media (min-width: 768px) {
+          .testimonials-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
         .testimonial-video {
           position: relative;
           padding-bottom: 56.25%;
-          height: 0;
-          border-radius: 12px;
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
+
         .testimonial-video iframe {
           position: absolute;
           top: 0;
@@ -320,338 +575,363 @@ function Home() {
           border: none;
         }
 
-        .contact-content {
+        /* ===== CTA ===== */
+        .cta-section {
           text-align: center;
+          padding: 160px 0;
+        }
+
+        .cta-content {
           max-width: 600px;
           margin: 0 auto;
         }
-        .contact-buttons {
-          display: flex;
-          gap: 20px;
-          justify-content: center;
-          margin-top: 40px;
-          flex-wrap: wrap;
-        }
-        .contact-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          padding: 16px 32px;
-          border-radius: 8px;
-          text-decoration: none;
-          font-weight: 600;
-          transition: all 0.3s;
-        }
-        .contact-btn-primary {
-          background: #1a365d;
-          color: #ffffff;
-        }
-        .contact-btn-primary:hover {
-          background: #2c5282;
-          transform: translateY(-2px);
-        }
-        .contact-btn-secondary {
-          background: #ffffff;
-          color: #1a365d;
-          border: 2px solid #1a365d;
-        }
-        .contact-btn-secondary:hover {
-          background: #1a365d;
-          color: #ffffff;
+
+        .cta-title {
+          font-size: clamp(2rem, 4vw, 3rem);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          margin-bottom: 24px;
         }
 
-        .footer {
-          background: #1a365d;
-          color: #ffffff;
-          padding: 40px 0;
+        .cta-description {
+          font-size: 1.25rem;
+          color: var(--text-secondary);
+          margin-bottom: 48px;
+        }
+
+        .cta-buttons {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 16px;
+          justify-content: center;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+          padding: 48px 0;
+          border-top: 1px solid var(--border);
           text-align: center;
         }
-        .footer p {
-          opacity: 0.8;
-          font-size: 0.9rem;
+
+        .footer-text {
+          font-size: 0.875rem;
+          color: var(--text-tertiary);
         }
 
-        @media (max-width: 768px) {
-          .nav-links {
-            display: none;
-          }
-          .hero-content {
-            grid-template-columns: 1fr;
-            text-align: center;
-          }
-          .hero-avatar {
-            margin: 0 auto;
-            width: 200px;
-            height: 200px;
-          }
-          .hero-avatar span {
-            font-size: 4rem;
-          }
-          .hero h1 {
-            font-size: 2.5rem;
-          }
-          .about-content {
-            grid-template-columns: 1fr;
-          }
-          .services-grid,
-          .segments-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .testimonials-grid {
-            grid-template-columns: 1fr;
-          }
+        .footer-links {
+          display: flex;
+          gap: 24px;
+          justify-content: center;
+          margin-top: 16px;
+        }
+
+        .footer-links a {
+          font-size: 0.875rem;
+          color: var(--text-secondary);
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+          color: var(--accent);
         }
       `}</style>
 
-            {/* Header */}
-            <header className="header">
-                <div className="container header-content">
-                    <a href="#" className="logo">
-                        Alex Otsubo
-                    </a>
-                    <nav>
-                        <ul className="nav-links">
-                            <li>
-                                <a href="#sobre">Sobre</a>
-                            </li>
-                            <li>
-                                <a href="#servicos">Serviços</a>
-                            </li>
-                            <li>
-                                <a href="#depoimentos">Depoimentos</a>
-                            </li>
-                            <li>
-                                <a href="#contato" className="nav-cta">
-                                    Contato
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </header>
+      {/* Header */}
+      <header>
+        <div className="container header-content">
+          <a href="#" className="logo">
+            alex<span>.</span>otsubo
+          </a>
+          <nav>
+            <a href="#sobre">Sobre</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#depoimentos">Depoimentos</a>
+          </nav>
+          <a href="#contato" className="header-cta">
+            Fale Comigo
+          </a>
+        </div>
+      </header>
 
-            {/* Hero */}
-            <section className="hero">
-                <div className="container hero-content">
-                    <div className="hero-text">
-                        <h1>Alex Otsubo</h1>
-                        <p className="tagline">Automações • IA • Estratégia Digital</p>
-                        <p>
-                            25 anos transformando tecnologia em resultados de negócio.
-                            Especialista em traduzir necessidades empresariais em soluções
-                            tecnológicas que geram valor mensurável.
-                        </p>
-                        <a href="#contato" className="hero-cta">
-                            Fale Comigo →
-                        </a>
-                    </div>
-                    <div className="hero-avatar">
-                        <span>AO</span>
-                    </div>
-                </div>
-            </section>
+      {/* Hero */}
+      <section className="hero">
+        <div className="container">
+          <div className="hero-content">
+            <div className="hero-badge animate-on-scroll">
+              <span>●</span> Disponível para novos projetos
+            </div>
+            <h1 className="animate-on-scroll delay-1">
+              Transformo tecnologia em{" "}
+              <span className="highlight">resultados de negócio</span>
+            </h1>
+            <p className="hero-description animate-on-scroll delay-2">
+              25 anos conectando estratégia e execução. Especialista em
+              automações, inteligência artificial e sistemas que escalam
+              operações.
+            </p>
+            <div className="hero-cta-group animate-on-scroll delay-3">
+              <a href="#contato" className="btn-primary">
+                Iniciar Conversa →
+              </a>
+              <a href="#servicos" className="btn-secondary">
+                Ver Serviços
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* About */}
-            <section id="sobre" className="section section-white">
-                <div className="container">
-                    <h2 className="section-title">Sobre</h2>
-                    <p className="section-subtitle">
-                        Experiência que conecta tecnologia e negócios
-                    </p>
-                    <div className="about-content">
-                        <div className="about-text">
-                            <p>
-                                Com mais de duas décadas de experiência em Tecnologia da
-                                Informação, desenvolvi uma competência única:{" "}
-                                <strong>
-                                    traduzir necessidades de negócio em soluções tecnológicas que
-                                    realmente funcionam
-                                </strong>
-                                .
-                            </p>
-                            <p>
-                                Minha trajetória inclui a fundação de uma escola de Cloud
-                                Computing, execução de múltiplos lançamentos digitais de seis
-                                dígitos, e o desenvolvimento de sistemas de automação para
-                                empresas de diversos segmentos.
-                            </p>
-                            <p>
-                                Hoje, atuo na interseção entre estratégia e execução —
-                                entendendo profundamente as dores do negócio e implementando
-                                soluções com inteligência artificial e automações que escalam
-                                operações.
-                            </p>
-                        </div>
-                        <div className="about-stats">
-                            <div className="stat-card">
-                                <div className="stat-number">25+</div>
-                                <div className="stat-label">Anos de TI</div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-number">6 em 7</div>
-                                <div className="stat-label">Lançamentos</div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-number">100+</div>
-                                <div className="stat-label">Projetos</div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-number">4</div>
-                                <div className="stat-label">Segmentos</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      {/* Stats */}
+      <section className="stats-section">
+        <div className="container">
+          <div className="stats-grid">
+            <div className="stat-item animate-on-scroll">
+              <div className="stat-number">
+                25<span>+</span>
+              </div>
+              <div className="stat-label">Anos de TI</div>
+            </div>
+            <div className="stat-item animate-on-scroll delay-1">
+              <div className="stat-number">
+                6<span>em</span>7
+              </div>
+              <div className="stat-label">Lançamentos</div>
+            </div>
+            <div className="stat-item animate-on-scroll delay-2">
+              <div className="stat-number">
+                100<span>+</span>
+              </div>
+              <div className="stat-label">Projetos</div>
+            </div>
+            <div className="stat-item animate-on-scroll delay-3">
+              <div className="stat-number">
+                4<span></span>
+              </div>
+              <div className="stat-label">Segmentos</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Services */}
-            <section id="servicos" className="section section-gray">
-                <div className="container">
-                    <h2 className="section-title">Áreas de Atuação</h2>
-                    <p className="section-subtitle">
-                        Soluções tecnológicas que geram resultados
-                    </p>
-                    <div className="services-grid">
-                        <div className="service-card">
-                            <div className="service-icon">⚙️</div>
-                            <h3>Automação de Processos</h3>
-                            <p>
-                                Eliminação de tarefas manuais através de fluxos automatizados
-                                que aumentam eficiência.
-                            </p>
-                        </div>
-                        <div className="service-card">
-                            <div className="service-icon">🤖</div>
-                            <h3>Inteligência Artificial</h3>
-                            <p>
-                                IA aplicada ao negócio: chatbots, análise de dados e machine
-                                learning.
-                            </p>
-                        </div>
-                        <div className="service-card">
-                            <div className="service-icon">📊</div>
-                            <h3>Consultoria Estratégica</h3>
-                            <p>
-                                Diagnóstico de processos e roadmap tecnológico alinhado aos
-                                objetivos.
-                            </p>
-                        </div>
-                        <div className="service-card">
-                            <div className="service-icon">💻</div>
-                            <h3>Desenvolvimento</h3>
-                            <p>
-                                Soluções sob medida: dashboards, integrações, APIs e sistemas
-                                completos.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      {/* About */}
+      <section id="sobre">
+        <div className="container">
+          <div className="about-grid">
+            <div className="about-avatar animate-on-scroll">
+              <div className="about-avatar-inner">
+                <span className="about-initials">AO</span>
+              </div>
+            </div>
+            <div className="about-text">
+              <span className="section-label animate-on-scroll">// Sobre</span>
+              <h2 className="section-title animate-on-scroll delay-1">
+                Estratégia + Execução na mesma pessoa
+              </h2>
+              <p className="animate-on-scroll delay-2">
+                Desenvolvi uma competência rara:{" "}
+                <strong>traduzir necessidades de negócio em soluções tecnológicas
+                  que realmente funcionam</strong>. Não sou só o cara que entende o
+                problema — sou o cara que resolve.
+              </p>
+              <p className="animate-on-scroll delay-3">
+                Fundei uma escola de Cloud Computing, executei múltiplos
+                lançamentos digitais de seis dígitos, e desenvolvo sistemas de
+                automação com IA para empresas que querem escalar.
+              </p>
+              <p className="animate-on-scroll delay-4">
+                <strong>Minha especialidade:</strong> fazer a ponte entre o que o
+                negócio precisa e o que a tecnologia pode entregar.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Segments */}
-            <section className="section section-primary">
-                <div className="container">
-                    <h2 className="section-title">Segmentos de Atuação</h2>
-                    <p className="section-subtitle">
-                        Experiência comprovada em diferentes mercados
-                    </p>
-                    <div className="segments-grid">
-                        <div className="segment-card">
-                            <div className="segment-icon">🏢</div>
-                            <h3>Imobiliário</h3>
-                        </div>
-                        <div className="segment-card">
-                            <div className="segment-icon">🏥</div>
-                            <h3>Saúde</h3>
-                        </div>
-                        <div className="segment-card">
-                            <div className="segment-icon">📚</div>
-                            <h3>Educação</h3>
-                        </div>
-                        <div className="segment-card">
-                            <div className="segment-icon">💰</div>
-                            <h3>Financeiro</h3>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      {/* Services */}
+      <section id="servicos" className="services-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label animate-on-scroll">// Serviços</span>
+            <h2 className="section-title animate-on-scroll delay-1">
+              O que eu faço
+            </h2>
+            <p className="section-description animate-on-scroll delay-2">
+              Soluções tecnológicas focadas em resultado, não em complexidade.
+            </p>
+          </div>
+          <div className="services-grid">
+            <div className="service-card animate-on-scroll">
+              <div className="service-icon">⚡</div>
+              <h3>Automação de Processos</h3>
+              <p>
+                Elimino tarefas manuais e repetitivas com fluxos automatizados.
+                N8N, Make, APIs customizadas. Menos erro, mais velocidade.
+              </p>
+            </div>
+            <div className="service-card animate-on-scroll delay-1">
+              <div className="service-icon">🤖</div>
+              <h3>Inteligência Artificial</h3>
+              <p>
+                IA aplicada ao seu negócio: chatbots, análise de dados,
+                processamento de linguagem natural, machine learning.
+              </p>
+            </div>
+            <div className="service-card animate-on-scroll delay-2">
+              <div className="service-icon">📊</div>
+              <h3>Consultoria Estratégica</h3>
+              <p>
+                Diagnóstico de processos e roadmap tecnológico alinhado aos seus
+                objetivos. Visão de negócio + conhecimento técnico.
+              </p>
+            </div>
+            <div className="service-card animate-on-scroll delay-3">
+              <div className="service-icon">💻</div>
+              <h3>Desenvolvimento</h3>
+              <p>
+                Sistemas sob medida: dashboards, integrações, APIs, aplicações
+                completas. Python, Node, React, e o que mais precisar.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Testimonials */}
-            <section id="depoimentos" className="section section-white">
-                <div className="container">
-                    <h2 className="section-title">Depoimentos</h2>
-                    <p className="section-subtitle">
-                        O que dizem sobre o trabalho realizado
-                    </p>
-                    <div className="testimonials-grid">
-                        <div className="testimonial-video">
-                            <iframe
-                                src="https://www.youtube.com/embed/XIhnYgr18sE"
-                                title="Depoimento Zila e Carol"
-                                allowFullScreen
-                            />
-                        </div>
-                        <div className="testimonial-video">
-                            <iframe
-                                src="https://www.youtube.com/embed/NLmk7U2FWDA"
-                                title="Depoimento Antonio Rocha"
-                                allowFullScreen
-                            />
-                        </div>
-                        <div className="testimonial-video">
-                            <iframe
-                                src="https://www.youtube.com/embed/VyUnDND50ZQ"
-                                title="Depoimento Tiago Feitosa"
-                                allowFullScreen
-                            />
-                        </div>
-                        <div className="testimonial-video">
-                            <iframe
-                                src="https://www.youtube.com/embed/XPJi4SDvxQc"
-                                title="Depoimento Maiara Sardenberg"
-                                allowFullScreen
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
+      {/* Segments */}
+      <section>
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label animate-on-scroll">// Segmentos</span>
+            <h2 className="section-title animate-on-scroll delay-1">
+              Onde atuo
+            </h2>
+          </div>
+          <div className="segments-grid">
+            <div className="segment-card animate-on-scroll">
+              <div className="segment-icon">🏢</div>
+              <h3>Imobiliário</h3>
+            </div>
+            <div className="segment-card animate-on-scroll delay-1">
+              <div className="segment-icon">🏥</div>
+              <h3>Saúde</h3>
+            </div>
+            <div className="segment-card animate-on-scroll delay-2">
+              <div className="segment-icon">📚</div>
+              <h3>Educação</h3>
+            </div>
+            <div className="segment-card animate-on-scroll delay-3">
+              <div className="segment-icon">💰</div>
+              <h3>Financeiro</h3>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Contact */}
-            <section id="contato" className="section section-gray">
-                <div className="container contact-content">
-                    <h2 className="section-title">Vamos Conversar</h2>
-                    <p className="section-subtitle">
-                        Pronto para transformar sua operação com tecnologia inteligente?
-                    </p>
-                    <p>
-                        Entre em contato para discutir como posso ajudar seu negócio a
-                        escalar através de automações e inteligência artificial.
-                    </p>
-                    <div className="contact-buttons">
-                        <a
-                            href="https://wa.me/5511942956780?text=Ol%C3%A1%20Alex%2C%20vim%20pelo%20seu%20site%20e%20gostaria%20de%20conversar."
-                            className="contact-btn contact-btn-primary"
-                        >
-                            📱 WhatsApp
-                        </a>
-                        <a
-                            href="mailto:alex.otsubo@hotmail.com"
-                            className="contact-btn contact-btn-secondary"
-                        >
-                            ✉️ E-mail
-                        </a>
-                    </div>
-                </div>
-            </section>
+      {/* Testimonials */}
+      <section id="depoimentos" className="testimonials-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label animate-on-scroll">// Depoimentos</span>
+            <h2 className="section-title animate-on-scroll delay-1">
+              O que dizem
+            </h2>
+            <p className="section-description animate-on-scroll delay-2">
+              Resultados reais de pessoas reais.
+            </p>
+          </div>
+          <div className="testimonials-grid">
+            <div className="testimonial-video animate-on-scroll">
+              <iframe
+                src="https://www.youtube.com/embed/XIhnYgr18sE"
+                title="Depoimento Zila e Carol"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            <div className="testimonial-video animate-on-scroll delay-1">
+              <iframe
+                src="https://www.youtube.com/embed/NLmk7U2FWDA"
+                title="Depoimento Antonio Rocha"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            <div className="testimonial-video animate-on-scroll delay-2">
+              <iframe
+                src="https://www.youtube.com/embed/VyUnDND50ZQ"
+                title="Depoimento Tiago Feitosa"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            <div className="testimonial-video animate-on-scroll delay-3">
+              <iframe
+                src="https://www.youtube.com/embed/XPJi4SDvxQc"
+                title="Depoimento Maiara Sardenberg"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Footer */}
-            <footer className="footer">
-                <div className="container">
-                    <p>© 2026 Alex Otsubo. Todos os direitos reservados.</p>
-                </div>
-            </footer>
-        </>
-    );
+      {/* CTA */}
+      <section id="contato" className="cta-section">
+        <div className="container">
+          <div className="cta-content">
+            <h2 className="cta-title animate-on-scroll">
+              Pronto para escalar?
+            </h2>
+            <p className="cta-description animate-on-scroll delay-1">
+              Vamos conversar sobre como automação e IA podem transformar sua
+              operação.
+            </p>
+            <div className="cta-buttons animate-on-scroll delay-2">
+              <a
+                href="https://wa.me/5511942956780?text=Ol%C3%A1%20Alex%2C%20vim%20pelo%20seu%20site%20e%20gostaria%20de%20conversar."
+                className="btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp →
+              </a>
+              <a
+                href="mailto:alex.otsubo@hotmail.com"
+                className="btn-secondary"
+              >
+                E-mail
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer>
+        <div className="container">
+          <p className="footer-text">
+            © 2026 Alex Otsubo. Todos os direitos reservados.
+          </p>
+          <div className="footer-links">
+            <a
+              href="https://wa.me/5511942956780"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              WhatsApp
+            </a>
+            <a href="mailto:alex.otsubo@hotmail.com">E-mail</a>
+            <a
+              href="https://www.youtube.com/@alexlamad6702"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              YouTube
+            </a>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
 }
-
-export default Home;
